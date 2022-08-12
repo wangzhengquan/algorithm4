@@ -1,0 +1,129 @@
+<html style><!--
+ Page saved with SingleFile 
+ url: http://faculty.cs.niu.edu/~hutchins/csci241/eval.htm 
+ saved date: Sat Jul 23 2022 09:44:19 GMT+0800 (China Standard Time)
+--><meta charset=utf-8>
+<title>Using a Stack to Evaluate an Expression</title>
+<link rel=canonical href=http://faculty.cs.niu.edu/~hutchins/csci241/eval.htm><meta http-equiv=content-security-policy content="default-src 'none'; font-src 'self' data:; img-src 'self' data:; style-src 'unsafe-inline'; media-src 'self' data:; script-src 'unsafe-inline' data:;"><style>img[src="data:,"],source[src="data:,"]{display:none!important}</style></head>
+<body>
+<p></p><center><b><h1>Using a Stack to Evaluate an Expression</h1></b></center>
+<p>We often deal with arithmetic expressions written in what is
+ called <u>infix notation</u>:
+<pre>         Operand1 op Operand2</pre>
+<p>We have rules to indicate which operations take precedence over
+ others, and we often use parentheses to override those rules.
+<p>It is also quite possible to write arithmetic expressions using
+ <u>postfix notation</u>:
+<pre>         Operand1 Operand2 op</pre>
+<p>With postfix notation, it is possible to use a stack to find 
+ the overall value of an infix expression by first converting it to 
+ postfix notation.
+<p>Example: Suppose we have this infix expression Q:
+<pre>         5 * ( 6 + 2 ) - 12 / 4</pre>
+<p>The equivalent postfix expression P is:
+<pre>         5 6 2 + * 12 4 / -</pre>
+<p>This discussion assumes all our operations are <i>binary</i> operations
+ (2 arguments each). Notice that we also sometimes use <i>unary</i> 
+ operations such as ++ or -- or the unary + and -.
+<p>We are not including the possibility of array elements in this 
+ discussion. (The subscript can be an expression which would have to 
+ be evaluated.)
+<p>One way to think of an expression is as a list or sequence of
+ items, each of which is a left parenthesis, right parenthesis,
+ argument, or operator. An argument can be a constant or the name
+ of a variable. Presumably it would be necessary at some point to 
+ replace each variable with its value.
+<p>There are two algorithms involved. One converts an infix 
+ expression to postfix form, and the other evaluates a postfix 
+ expression. Each uses a stack.
+<p><hr>
+<p><b>Transform an infix expression to postfix notation</b>
+<p>Suppose Q is an arithmetic expression in infix notation. We 
+ will create an equivalent postfix expression P by adding items to on 
+ the right of P. The new expression P will not contain any parentheses. 
+<p>We will use a stack in which each item may be a left parenthesis 
+ or the symbol for an operation. 
+<pre>     Start with an empty stack.  We scan Q from left to right. 
+
+     While (we have not reached the end of Q)
+        If (an operand is found)
+           Add it to P
+        End-If
+        If (a left parenthesis is found) 
+           Push it onto the stack
+        End-If
+        If (a right parenthesis is found) 
+           While (the stack is not empty AND the top item is
+                  not a left parenthesis)
+              Pop the stack and add the popped value to P
+           End-While
+           Pop the left parenthesis from the stack and discard it 
+        End-If
+        If (an operator is found)
+           If (the stack is empty or if the top element is a left
+               parenthesis)
+              Push the operator onto the stack
+           Else  
+              While (the stack is not empty AND the top of the stack 
+                     is not a left parenthesis AND precedence of the                  
+                     operator &lt;= precedence of the top of the stack)
+                 Pop the stack and add the top value to P
+              End-While
+              Push the latest operator onto the stack     
+           End-If  
+        End-If
+     End-While
+     While (the stack is not empty)
+        Pop the stack and add the popped value to P
+     End-While</pre>
+<p>Notes:
+<ul>
+ <li>At the end, if there is still a left parenthesis at the 
+ top of the stack, or if we find a right parenthesis when the stack is 
+ empty, then Q contained unbalanced parentheses and is in error.
+</ul>
+<p><hr>
+<p><b>Evaluate a postfix expression</b>
+<p>Suppose P is an arithmetic expression in postfix notation.
+ We will evaluate it using a stack to hold the operands. 
+<pre>     Start with an empty stack.  We scan P from left to right.
+
+     While (we have not reached the end of P)
+        If an operand is found
+           push it onto the stack
+        End-If
+        If an operator is found
+           Pop the stack and call the value A
+           Pop the stack and call the value B
+           Evaluate B op A using the operator just found.
+           Push the resulting value onto the stack
+        End-If
+    End-While
+    Pop the stack (this is the final value)</pre>
+<p>Notes:
+<ul>
+ <li>At the end, there should be only one element left on the stack.
+ <p>
+ </p><li>This assumes the postfix expression is valid.
+</ul>
+<p><hr>
+<p><b>How can this be implemented?</b>
+<p>Work like this is usually done by an assembler, compiler or 
+ interpreter. A programmer uses an expression in her or her code, and
+ evaluating it is someone else's problem. 
+<p>Suppose it is our problem (maybe we are writing an interpreter).
+ The interpreter is reading a line at a time from a file as a
+ string, such as
+<pre>         A = ((B + C) / 3 - 47 % E) * (F + 8)</pre>
+<p>The string needs to be parsed--that is, we need to break it up 
+ into substrings, each of which is one meaningful part. These 
+ substrings are often called <u>tokens</u>. The tokens are separated by 
+ spaces, in many cases, but also a token ends if we find a left or 
+ right parenthesis or the symbol for an operator. Thus for instance,
+ in the above example, we have "E)", and this consists of two tokens
+ "E" and ")". Bear in mind that the symbol for an operator can be more
+ than one character.
+<p>We then have a list of tokens, perhaps in an array or a linked 
+ list. Somewhere we will have an Evaluate function which takes such a 
+ list as an argument and returns a numeric value.
+</p>

@@ -1,0 +1,2 @@
+text:   abaabracadabracadabrabracabracadabrabrabracad
+pattern:abracadabra
