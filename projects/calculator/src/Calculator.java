@@ -30,6 +30,7 @@ import java.util.TreeMap;
 
 public class Calculator {
 
+  // key is operator, value is precedence
   private final Map<String, Integer> OPERATOR_MAP = new TreeMap<>();
 
   public Calculator() {

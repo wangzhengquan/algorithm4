@@ -1,10 +1,12 @@
 .idea
 .DS_Store
 *.iml
-*.zip
 *.class
 
 out/
 build/
+
+*.zip
+
 vedio/
 

@@ -73,7 +73,6 @@ public class TST<Value> {
     private char c;                        // character
     private Node<Value> left, mid, right;  // left, middle, and right subtries
     private Value val;                     // value associated with string
-    private int size = 1;
   }
 
   /**
@@ -272,90 +271,7 @@ public class TST<Value> {
     return root == null;
   }
 
-
-  // Draw in a canvas
-  double r = 0.04, rx, ry; // radius
-  double u = 0.2; // unit length
-  double ux = u * Math.sin(Math.PI / 3);
-  double uy = u * Math.cos(Math.PI / 3);
-
-  double targetX, targetY;
-  double d, dx, dy = uy; // distance
-
-
-  public void drawTree() {
-//    StdDraw.setCanvasSize(2000, 1000);
-    StdDraw.enableDoubleBuffering();
-    StdDraw.clear();
-    StdDraw.setPenColor(StdDraw.BLACK);
-//    StdDraw.setPenRadius(0.01);
-    if (this.isEmpty()) {
-      StdDraw.show();
-      return;
-    }
-    setSize();
-    drawNode(root, .5 - r, 1 - r);
-    StdOut.println();
-    StdDraw.show();
-  }
-
-  public void drawNode(Node node, double x, double y) {
-    if (node == null) return;
-//    StdOut.printf("key=%s, dx=%f, dy=%f\n", node.key,  dx, dy);
-    StdDraw.setPenColor(StdDraw.BLACK);
-    StdDraw.circle(x, y, r);
-    StdDraw.text(x, y, node.c + ":" + node.size);
-
-//    StdOut.print(node.c + " ");
-
-    StdDraw.setPenColor(StdDraw.BLACK);
-    if (node.left != null) {
-      dx = (size(node.left.right) + size(node.mid.left) + 1) * ux;
-      targetX = x - dx;
-      targetY = y - dy;
-      d = Math.sqrt(dx * dx + dy * dy);
-      rx = r * dx / d;
-      ry = r * dy / d;
-      StdDraw.line(x - rx, y - ry, targetX + rx, targetY + ry);
-      drawNode(node.left, targetX, targetY);
-    }
-    if (node.mid != null) {
-      targetX = x;
-      targetY = y - dy;
-      rx = 0;
-      ry = r;
-      StdDraw.line(x + rx, y - ry, targetX - rx, targetY + ry);
-      drawNode(node.mid, targetX, targetY);
-    }
-    if (node.right != null) {
-      dx = (size(node.right.left) + size(node.mid.right) + 1) * ux;
-      targetX = x + dx;
-      targetY = y - dy;
-      d = Math.sqrt(dx * dx + dy * dy);
-      rx = r * dx / d;
-      ry = r * dy / d;
-      StdDraw.line(x + rx, y - ry, targetX - rx, targetY + ry);
-      drawNode(node.right, targetX, targetY);
-    }
-
-  }
-
-  private int size(Node x) {
-    if (x == null) return 0;
-    else return x.size;
-  }
-
-  private void setSize() {
-    setSize(root, true);
-  }
-
-  private void setSize(Node h, boolean ismid) {
-    if (h == null) return;
-    setSize(h.left, false);
-    setSize(h.mid, true);
-    setSize(h.right, false);
-    h.size = size(h.left) + size(h.right) + size(h.mid) + (ismid ? 0 : 1);
-  }
+ 
 
   /**
    * Unit tests the {@code TST} data type.
