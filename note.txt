@@ -1,1 +1,1 @@
-https://www.cnblogs.com/mingyueanyao/
+https://github.com/mingyueanyao/algorithms-princeton-coursera.git
