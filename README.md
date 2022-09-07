@@ -8,7 +8,7 @@ Coursera 上普林斯顿大学的算法公开课。
 2. [Algorithms, Part II](https://www.coursera.org/learn/algorithms-part2)  
 
 ## 课程网站
- [Algorithms, 4th Edition](https://algs4.cs.princeton.edu/home/)。 
+ [Algorithms, 4th Edition](https://algs4.cs.princeton.edu/home)。 
  
 ## Project
 
