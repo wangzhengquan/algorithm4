@@ -46,6 +46,7 @@ public class Calculator {
     OPERATOR_MAP.put("sin", 4);
     OPERATOR_MAP.put("cos", 4);
     OPERATOR_MAP.put("log", 4); //natural logarithm
+    OPERATOR_MAP.put("gcd", 4);
     OPERATOR_MAP.put("max", 4);
     OPERATOR_MAP.put("min", 4);
   }
@@ -204,6 +205,9 @@ public class Calculator {
           case "log":
             v = Math.log(v);
             break;
+          case "gcd":
+            v = gcd(stack.pop().intValue(), (int) v);
+            break;
           case "max":
             v = Math.max(stack.pop(), v);
             break;
@@ -271,6 +275,54 @@ public class Calculator {
     return evaluatePostfix(postfixQ);
   }
 
+
+  /**
+   * Computes the greatest common divisor of the given integers.
+   * <p>
+   * Euclid's algorithm:
+   * Let a = bq + r, where a, b, q, and r are integers. Then gcd(a, b) = gcd(b, r).
+   */
+  public static int gcd(int a, int b) {
+    a = Math.abs(a);
+    b = Math.abs(b);
+    int r;
+    while (b != 0) {
+      r = a % b;  // r = remainder of the integer division a/b
+      a = b;
+      b = r;
+    }
+    return a;
+  }
+
+  /**
+   * Newton’s method , Thomas' Calculus(13th) 4.7
+   *
+   * @param a
+   * @return
+   */
+  private static final double FLOATING_POINT_EPSILON = 1E-15;
+
+  private static double sqrt(double a) {
+    double x, nx;
+    x = 1;
+    nx = x - (x * x - a) / (2 * x);
+    while (Math.abs(nx - x) > FLOATING_POINT_EPSILON) {
+      x = nx;
+      nx = x - (x * x - a) / (2 * x);
+    }
+    return x;
+  }
+
+  private static void testSqrt() {
+    System.out.println(sqrt(2) + ":" + Math.sqrt(2));
+    // System.out.println(1.4142135623746899 * 1.4142135623746899 + ":" + 1.4142135623730951 * 1.4142135623730951);
+    //System.out.println(sqrt(2));
+    System.out.println(sqrt(0.5) + ":" + Math.sqrt(0.5));
+    System.out.println(sqrt(0.04) + ":" + Math.sqrt(0.04));
+    System.out.println(sqrt(0.09) + ":" + Math.sqrt(0.09));
+  }
+
+
   private static void simulate() {
     //    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     //    String line = br.readLine();
@@ -288,11 +340,12 @@ public class Calculator {
 
   public static void main(String[] args) {
 
-//    simulate();
-    testCorrect();
-    test1();
+    simulate();
+//    testCorrect();
+//    test1();
 //    test2();
     // testCorrect();
+    testSqrt();
   }
 
   private static void test1() {

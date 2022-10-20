@@ -1,7 +1,7 @@
 /**
  * https://www.geeksforgeeks.org/expression-evaluation
  * <p>
- * Using two stacks , one for operands, and one for operators to evaluate in one pass
+ * Using two stacks , one for operands, and one for operators to Evaluate an Expression in one pass
  */
 
 import java.util.Map;
